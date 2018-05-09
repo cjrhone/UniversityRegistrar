@@ -77,5 +77,43 @@ namespace UniversityRegistrar.Models
         conn.Dispose();
       }
     }
+
+    public override bool Equals(System.Object otherStudent)
+    {
+      if (!(otherStudent is Student))
+      {
+        return false;
+      }
+      else
+      {
+        Student newStudent = (Student) otherStudent;
+        bool idEquality = (this.GetId() == newStudent.GetId());
+        bool nameEquality = (this.GetName() == newStudent.GetName());
+        return (idEquality && nameEquality);
+      }
+    }
+
+    public void Save()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO students (name) VALUES (@name);";
+
+      MySqlParameter name = new MySqlParameter();
+      name.ParameterName = "@name";
+      name.Value = _name;
+      cmd.Parameters.Add(name);
+
+      cmd.ExecuteNonQuery();
+      _id = (int) cmd.LastInsertedId;
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
   }
 }
