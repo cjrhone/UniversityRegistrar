@@ -56,6 +56,57 @@ namespace UniversityRegistrar.Models
           return allCourses;
         }
 
+        public List<Student> GetStudents()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT student_id FROM courses_students WHERE course_id = @CourseId;";
+
+            MySqlParameter courseIdParameter = new MySqlParameter();
+            courseIdParameter.ParameterName = "@CourseId";
+            courseIdParameter.Value = _id;
+            cmd.Parameters.Add(courseIdParameter);
+
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+            List<int> studentIds = new List<int> {};
+            while(rdr.Read())
+            {
+                int studentId = rdr.GetInt32(0);
+                studentIds.Add(studentId);
+            }
+            rdr.Dispose();
+
+            List<Student> students = new List<Student> {};
+            foreach (int studentId in studentIds)
+            {
+              var studentQuery = conn.CreateCommand() as MySqlCommand;
+              studentQuery.CommandText = @"SELECT * FROM students WHERE id = @StudentId;";
+
+              MySqlParameter studentIdParameter = new MySqlParameter();
+              studentIdParameter.ParameterName = "@StudentId";
+              studentIdParameter.Value = studentId;
+              studentQuery.Parameters.Add(studentIdParameter);
+
+              var studentQueryRdr = studentQuery.ExecuteReader() as MySqlDataReader;
+              while(studentQueryRdr.Read())
+              {
+                  int thisStudentId = studentQueryRdr.GetInt32(0);
+                  string studentName = studentQueryRdr.GetString(1);
+                  Student foundStudent = new Student(studentName, thisStudentId);
+                  students.Add(foundStudent);
+              }
+              studentQueryRdr.Dispose();
+          }
+          conn.Close();
+          if (conn != null)
+          {
+              conn.Dispose();
+          }
+          return students;
+        }
+
         public static void DeleteAll()
         {
           MySqlConnection conn = DB.Connection();

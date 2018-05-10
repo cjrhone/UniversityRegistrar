@@ -23,7 +23,7 @@ namespace UniversityRegistrar.Tests
       int result = Course.GetAll().Count;
 
       //Assert
-      Assert.AreEqual(0, result);
+      Assert.AreEqual(4, result);
     }
 
     [TestMethod]

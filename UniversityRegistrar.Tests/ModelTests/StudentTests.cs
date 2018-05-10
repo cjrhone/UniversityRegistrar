@@ -69,5 +69,69 @@ namespace UniversityRegistrar.Tests
           //Assert
           Assert.AreEqual(testId, result);
         }
+
+        [TestMethod]
+        public void AddCourse_AddsCoursetoStudents_CourseList()
+        {
+          //Arrange
+          Student testStudent = new Student("James");
+          testStudent.Save();
+
+          Course testCourse = new Course("Algebra");
+          testCourse.Save();
+
+          //Act
+          testStudent.AddCourse(testCourse);
+
+          List<Course> result = testStudent.GetCourses();
+          List<Course> testList = new List<Course>{testCourse};
+
+          //Assert
+          CollectionAssert.AreEqual(testList, result);
+        }
+
+        [TestMethod]
+        public void GetCourses_ReturnsAllStudentsCourses_CoursesList()
+        {
+          //Arrange
+          Student testStudent = new Student("James");
+          testStudent.Save();
+
+          Course testCourse1 = new Course("Algebra");
+          testCourse1.Save();
+
+          Course testCourse2 = new Course("English");
+          testCourse2.Save();
+
+          //Act
+          testStudent.AddCourse(testCourse1);
+          List<Course> result = testStudent.GetCourses();
+          List<Course> testList = new List<Course> {testCourse1};
+
+          //Assert
+          CollectionAssert.AreEqual(testList, result);
+        }
+
+        [TestMethod]
+        public void Delete_DeletesStudentAssociationsFromDatabase_StudentList()
+        {
+          //Arrange
+          Course testCourse = new Course("Algebra");
+          testCourse.Save();
+
+          string testName = "James";
+          Student testStudent = new Student(testName);
+          testStudent.Save();
+
+          //Act
+          testStudent.AddCourse(testCourse);
+          testStudent.Delete();
+
+          List<Student> resultCourseStudents = testCourse.GetStudents();
+          List<Student> testCourseStudents = new List<Student> {};
+
+          //Assert
+          CollectionAssert.AreEqual(testCourseStudents, resultCourseStudents);
+        }
     }
 }

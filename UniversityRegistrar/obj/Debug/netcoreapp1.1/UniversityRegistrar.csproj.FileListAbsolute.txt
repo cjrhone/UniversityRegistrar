@@ -6,3 +6,12 @@
 /Users/Guest/Desktop/UniversityRegistrar/UniversityRegistrar/obj/Debug/netcoreapp1.1/UniversityRegistrar.AssemblyInfo.cs
 /Users/Guest/Desktop/UniversityRegistrar/UniversityRegistrar/obj/Debug/netcoreapp1.1/UniversityRegistrar.dll
 /Users/Guest/Desktop/UniversityRegistrar/UniversityRegistrar/obj/Debug/netcoreapp1.1/UniversityRegistrar.pdb
+/Users/charlesrhone/Desktop/UniversityRegistrar/UniversityRegistrar/bin/Debug/netcoreapp1.1/UniversityRegistrar.deps.json
+/Users/charlesrhone/Desktop/UniversityRegistrar/UniversityRegistrar/bin/Debug/netcoreapp1.1/UniversityRegistrar.runtimeconfig.json
+/Users/charlesrhone/Desktop/UniversityRegistrar/UniversityRegistrar/bin/Debug/netcoreapp1.1/UniversityRegistrar.runtimeconfig.dev.json
+/Users/charlesrhone/Desktop/UniversityRegistrar/UniversityRegistrar/bin/Debug/netcoreapp1.1/UniversityRegistrar.dll
+/Users/charlesrhone/Desktop/UniversityRegistrar/UniversityRegistrar/bin/Debug/netcoreapp1.1/UniversityRegistrar.pdb
+/Users/charlesrhone/Desktop/UniversityRegistrar/UniversityRegistrar/obj/Debug/netcoreapp1.1/UniversityRegistrar.csproj.CoreCompileInputs.cache
+/Users/charlesrhone/Desktop/UniversityRegistrar/UniversityRegistrar/obj/Debug/netcoreapp1.1/UniversityRegistrar.AssemblyInfo.cs
+/Users/charlesrhone/Desktop/UniversityRegistrar/UniversityRegistrar/obj/Debug/netcoreapp1.1/UniversityRegistrar.dll
+/Users/charlesrhone/Desktop/UniversityRegistrar/UniversityRegistrar/obj/Debug/netcoreapp1.1/UniversityRegistrar.pdb
