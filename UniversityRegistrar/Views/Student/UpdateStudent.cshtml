@@ -1,0 +1,15 @@
+<form action="/students/update" method="post">
+  <select id="student-update-dropdown" name="student-update-dropdown">
+        @foreach(var thisStudent in Model)
+        {
+          <option value="@thisStudent.GetId()">@thisStudent.GetName()</option>
+        }
+  </select>
+
+  <label for="new-student-name">Enter New Student name:</label>
+  <input id="new-student-name" name="new-student-name" type="text">
+
+  <button type="submit">Update Student Name</button>
+</form>
+
+<h4><a href="/">Return home</a></h4>

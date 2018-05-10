@@ -55,6 +55,26 @@ namespace UniversityRegistrar.Controllers
         return RedirectToAction("Index");
     }
 
+    [HttpGet("/courses/update")]
+    public ActionResult UpdateCourse()
+    {
+        List<Course> allCourses = Course.GetAll();
+        return View(allCourses);
+    }
+
+    [HttpPost("/courses/update")]
+    public ActionResult UpdatePost()
+    {
+        int id= int.Parse(Request.Form["course-update-dropdown"]);
+        Course selectedCourse=Course.Find(id);
+
+        string newName=Request.Form["new-course-name"];
+
+        selectedCourse.Update(newName);
+        return RedirectToAction("Index");
+    }
+
+
 
     [HttpPost("/courses/{courseId}/students/new")]
     public ActionResult AddStudent(int courseId)
