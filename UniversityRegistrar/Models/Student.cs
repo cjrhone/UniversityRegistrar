@@ -131,79 +131,95 @@ namespace UniversityRegistrar.Models
     public void AddCourse(Course newCourse)
     {
       MySqlConnection conn = DB.Connection();
-            conn.Open();
-            var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO courses_students (course_id, student_id) VALUES (@CourseId, @StudentId);";
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO courses_students (course_id, student_id) VALUES (@CourseId, @StudentId);";
 
-            MySqlParameter course_id = new MySqlParameter();
-            course_id.ParameterName = "@CourseId";
-            course_id.Value = newCourse.GetId();
-            cmd.Parameters.Add(course_id);
+      MySqlParameter course_id = new MySqlParameter();
+      course_id.ParameterName = "@CourseId";
+      course_id.Value = newCourse.GetId();
+      cmd.Parameters.Add(course_id);
 
-            MySqlParameter student_id = new MySqlParameter();
-            student_id.ParameterName = "@StudentId";
-            student_id.Value = _id;
-            cmd.Parameters.Add(student_id);
+      MySqlParameter student_id = new MySqlParameter();
+      student_id.ParameterName = "@StudentId";
+      student_id.Value = _id;
+      cmd.Parameters.Add(student_id);
 
-            cmd.ExecuteNonQuery();
-            conn.Close();
-            if (conn != null)
-            {
-                conn.Dispose();
-            }
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+          conn.Dispose();
+      }
 
     }
 
     public List<Course> GetCourses()
     {
       MySqlConnection conn = DB.Connection();
-          conn.Open();
-          var cmd = conn.CreateCommand() as MySqlCommand;
-          cmd.CommandText = @"SELECT course_id FROM courses_students WHERE student_id = @StudentId;";
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT courses.* FROM students
+      JOIN courses_students ON (students.id = courses_students.student_id)
+      JOIN courses ON (courses_students.course_id = courses.id)
+      WHERE students.id = @StudentId;";
+      // @"SELECT student_id FROM courses_students WHERE course_id = @CourseId;";
 
-          MySqlParameter studentIdParameter = new MySqlParameter();
-          studentIdParameter.ParameterName = "@StudentId";
-          studentIdParameter.Value = _id;
-          cmd.Parameters.Add(studentIdParameter);
+      MySqlParameter studentIdParameter = new MySqlParameter();
+      studentIdParameter.ParameterName = "@StudentId";
+      studentIdParameter.Value = _id;
+      cmd.Parameters.Add(studentIdParameter);
 
-          var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      List<Course> courses = new List<Course>{};
 
-          List<int> courseIds = new List<int> {};
-          while(rdr.Read())
-          {
-              int courseId = rdr.GetInt32(0);
-              courseIds.Add(courseId);
-          }
-          rdr.Dispose();
+      while(rdr.Read())
+      {
+        int courseId = rdr.GetInt32(0);
+        string courseName = rdr.GetString(1);
+        Course newCourse = new Course(courseName, courseId);
+        courses.Add(newCourse);
+      }
 
-          List<Course> courses = new List<Course> {};
-          foreach (int courseId in courseIds)
-          {
-              var courseQuery = conn.CreateCommand() as MySqlCommand;
-              courseQuery.CommandText = @"SELECT * FROM courses WHERE id = @CategoryId;";
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+      return courses;
+    }
 
-              MySqlParameter courseIdParameter = new MySqlParameter();
-              courseIdParameter.ParameterName = "@CategoryId";
-              courseIdParameter.Value = courseId;
-              courseQuery.Parameters.Add(courseIdParameter);
+    public static Student Find(int id)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM students WHERE id = (@searchId);";
 
-              var categoryQueryRdr = courseQuery.ExecuteReader() as MySqlDataReader;
-              while(categoryQueryRdr.Read())
-              {
-                  int thisCourseId = categoryQueryRdr.GetInt32(0);
-                  string courseName = categoryQueryRdr.GetString(1);
-                  Course foundCourse = new Course(courseName, thisCourseId);
-                  courses.Add(foundCourse);
-              }
-              categoryQueryRdr.Dispose();
-          }
-          conn.Close();
-          if (conn != null)
-          {
-              conn.Dispose();
-          }
-          return courses;
+      MySqlParameter searchId = new MySqlParameter();
+      searchId.ParameterName = "@searchId";
+      searchId.Value = id;
+      cmd.Parameters.Add(searchId);
 
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      int studentId = 0;
+      string studentName = "";
+
+      while(rdr.Read())
+      {
+        studentId = rdr.GetInt32(0);
+        studentName = rdr.GetString(1);
+      }
+
+      // Constructor below no longer includes a itemCategoryId parameter:
+      Student newStudent = new Student(studentName, studentId);
+      conn.Close();
+      if (conn != null)
+      {
+          conn.Dispose();
+      }
+
+      return newStudent;
     }
   }
 }
