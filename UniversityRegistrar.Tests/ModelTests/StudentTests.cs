@@ -12,17 +12,15 @@ namespace UniversityRegistrar.Tests
         public void Dispose()
         {
           Student.DeleteAll();
+          Course.DeleteAll();
         }
 
         [TestMethod]
         public void GetAll_DbStartsEmpty_0()
         {
-          //Arrange
-          //Act
 
           int result = Student.GetAll().Count;
 
-          //Assert
           Assert.AreEqual(0, result);
         }
 
@@ -52,7 +50,7 @@ namespace UniversityRegistrar.Tests
         }
 
         [TestMethod]
-        public void Save_AssignsIdToObject_Id()
+        public void Save_AssignsStudentIdToObject_Id()
         {
           //Arrange
           Student testStudent = new Student("James");
@@ -84,6 +82,7 @@ namespace UniversityRegistrar.Tests
           testStudent.AddCourse(testCourse);
 
           List<Course> result = testStudent.GetCourses();
+          //CALL GetCourses()
           List<Course> testList = new List<Course>{testCourse};
 
           //Assert
@@ -105,6 +104,7 @@ namespace UniversityRegistrar.Tests
 
           //Act
           testStudent.AddCourse(testCourse1);
+          //CALL AddCourse()
           List<Course> result = testStudent.GetCourses();
           List<Course> testList = new List<Course> {testCourse1};
 
@@ -126,6 +126,7 @@ namespace UniversityRegistrar.Tests
           //Act
           testStudent.AddCourse(testCourse);
           testStudent.Delete();
+          //CALL Delete()
 
           List<Student> resultCourseStudents = testCourse.GetStudents();
           List<Student> testCourseStudents = new List<Student> {};

@@ -79,19 +79,12 @@ namespace UniversityRegistrar.Models
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
-      //Creates conn object representing our connection to the database
-
-      //manually opens the connection ( conn ) with conn.Open()
       var cmd = conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = @"DELETE FROM students;";
-      //Define cmd as --> creating command --> MySqlCommand... then...
       cmd.ExecuteNonQuery();
-      //...Define CommandText property using SQL statement, which will clear the students table in our database
 
-      //Executes SQL statements that modify data (like deletion)
       conn.Close();
       if (conn != null)
-      //Finally, we make sure to close our connection with Close()...
       {
         conn.Dispose();
       }

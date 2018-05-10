@@ -26,6 +26,32 @@ namespace UniversityRegistrar.Models
           return _name;
         }
 
+        public void AddStudent(Student newStudent)
+        {
+          MySqlConnection conn = DB.Connection();
+                conn.Open();
+                var cmd = conn.CreateCommand() as MySqlCommand;
+                cmd.CommandText = @"INSERT INTO courses_students (course_id, student_id) VALUES (@CourseId, @StudentId);";
+
+                MySqlParameter student_id = new MySqlParameter();
+                student_id.ParameterName = "@StudentId";
+                student_id.Value = newStudent.GetId();
+                cmd.Parameters.Add(student_id);
+
+                MySqlParameter course_id = new MySqlParameter();
+                course_id.ParameterName = "@CourseId";
+                course_id.Value = _id;
+                cmd.Parameters.Add(course_id);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                if (conn != null)
+                {
+                    conn.Dispose();
+                }
+
+        }
+
         public static List<Course> GetAll()
         {
           List<Course> allCourses = new List<Course> {};
@@ -105,6 +131,25 @@ namespace UniversityRegistrar.Models
               conn.Dispose();
           }
           return students;
+        }
+
+        public void Delete()
+        {
+          MySqlConnection conn = DB.Connection();
+          conn.Open();
+          var cmd = conn.CreateCommand() as MySqlCommand;
+          cmd.CommandText = @"DELETE FROM courses WHERE id = @CourseId; DELETE FROM courses_students WHERE course_id = @CourseId;";
+
+          MySqlParameter courseIdParameter = new MySqlParameter();
+          courseIdParameter.ParameterName = "@CourseId";
+          courseIdParameter.Value = this.GetId();
+          cmd.Parameters.Add(courseIdParameter);
+
+          cmd.ExecuteNonQuery();
+          if (conn != null)
+          {
+            conn.Close();
+          }
         }
 
         public static void DeleteAll()
