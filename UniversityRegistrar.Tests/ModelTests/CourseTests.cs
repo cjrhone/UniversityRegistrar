@@ -111,5 +111,19 @@ namespace UniversityRegistrar.Tests
       //Assert
       CollectionAssert.AreEqual(testStudentCourses, resultStudentCourses);
     }
+
+    [TestMethod]
+    public void Find_FindsCourseInDatabase_Course()
+    {
+      //Arrange
+      Course testCourse = new Course("English");
+      testCourse.Save();
+
+      //Act
+      Course result = Course.Find(testCourse.GetId());
+
+      //Assert
+      Assert.AreEqual(testCourse, result);
+    }
   }
 }

@@ -134,5 +134,19 @@ namespace UniversityRegistrar.Tests
           //Assert
           CollectionAssert.AreEqual(testCourseStudents, resultCourseStudents);
         }
+
+        [TestMethod]
+        public void Find_FindsStudentInDatabase_Student()
+        {
+          //Arrange
+          Student testStudent = new Student("Oprah");
+          testStudent.Save();
+
+          //Act
+          Student result = Student.Find(testStudent.GetId());
+
+          //Assert
+          Assert.AreEqual(testStudent, result);
+        }
     }
 }

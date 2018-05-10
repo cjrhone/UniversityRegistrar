@@ -177,6 +177,24 @@ namespace UniversityRegistrar.Models
             conn.Close();
           }
         }
+        // public void Delete(int passedId)
+        // {
+        //   MySqlConnection conn = DB.Connection();
+        //   conn.Open();
+        //   var cmd = conn.CreateCommand() as MySqlCommand;
+        //   cmd.CommandText = @"DELETE FROM courses WHERE id = @CourseId; DELETE FROM courses_students WHERE course_id = @CourseId;";
+        //
+        //   MySqlParameter courseIdParameter = new MySqlParameter();
+        //   courseIdParameter.ParameterName = "@CourseId";
+        //   courseIdParameter.Value = passedId;
+        //   cmd.Parameters.Add(courseIdParameter);
+        //
+        //   cmd.ExecuteNonQuery();
+        //   if (conn != null)
+        //   {
+        //     conn.Close();
+        //   }
+        // }
 
         public static void DeleteAll()
         {

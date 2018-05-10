@@ -26,6 +26,23 @@ namespace UniversityRegistrar.Controllers
         return RedirectToAction("Index");
     }
 
+    [HttpGet("/students/delete")]
+    public ActionResult DeleteStudent()
+    {
+        List<Student> allStudents = Student.GetAll();
+        return View(allStudents);
+    }
+
+    [HttpPost("/students/delete")]
+    public ActionResult DeletePost()
+    {
+        int id= int.Parse(Request.Form["student-delete-dropdown"]);
+        Student selectedStudent=Student.Find(id);
+        selectedStudent.Delete();
+        return RedirectToAction("Index");
+    }
+
+
     [HttpGet("/students/{id}")]
     public ActionResult Details(int id)
     {

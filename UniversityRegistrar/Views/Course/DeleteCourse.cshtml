@@ -1,0 +1,11 @@
+<form action="/courses/delete" method="post">
+  <select id="course-delete-dropdown" name="course-delete-dropdown">
+        @foreach(var thisCourse in Model)
+        {
+          <option value="@thisCourse.GetId()">@thisCourse.GetName()</option>
+        }
+  </select>
+  <button type="submit">Delete Course</button>
+</form>
+
+<h4><a href="/">Return home</a></h4>
